@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Jobsuche-app</string>
+    <string-array name="art_array">
+        <item>Stelle</item>
+        <item>Nebenjob,Ferienjob</item>
+        <item>Ausbildungsstelle</item>
+        <item>Studienplatz,Werkstudent</item>
+        <item>Praktikum,Referendariat</item>
+        <item>Abschlussarbeit</item>
+    </string-array>
+    <string-array name="berufsfeld_array">
+        <item>Beratung,Consulting</item>
+        <item>Elektronik,Elektrotechnik</item>
+        <item>Geisteswissenschaften,Sprachen</item>
+        <item>Informatik</item>
+        <item>Ingenieurswissenschaften</item>
+        <item>Medien,Unterhaltung</item>
+        <item>IT/Telekommunikation</item>
+        <item>Kunst,Kultur,Gestaltung</item>
+        <item>Landwirtschaft,Natur,Umwelt</item>
+        <item>Medizin,Gesundheit</item>
+    </string-array>
+    <string-array name="bundesland_array">
+        <item>Bayern</item>
+        <item>Berlin</item>
+        <item>Rheinland</item>
+        <item>Hamburg</item>
+        <item>Saarland</item>
+        <item>Thüringen</item>
+        <item>Ausland</item>
+        <item>Deutschland</item>
+        <item>Rheinland-Pfalz</item>
+    </string-array>
+</resources>
