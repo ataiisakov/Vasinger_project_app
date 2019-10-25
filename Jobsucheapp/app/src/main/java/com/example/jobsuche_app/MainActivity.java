@@ -1,31 +1,38 @@
 package com.example.jobsuche_app;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private RecyclerView mRecycleView;
+    private MyAdapter myAdapter;
+    private ArrayList<Job> mJobList;
+    RequestQueue requestQueue;
 
     ArrayList<HashMap<String, Object>> jobsList;
     private String TAG = MainActivity.class.getSimpleName();
@@ -41,15 +48,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         jobsList = new ArrayList<>();
 //        lv = findViewById(R.id.list);
-        spinnerArt = findViewById(R.id.spinner_art);
-        spinnerFeld = findViewById(R.id.spinner_berufsfeld);
-        spinnerLand = findViewById(R.id.spinner_bundesland);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.art_array,android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerArt.setOnItemSelectedListener(this);
-        spinnerFeld.setOnItemSelectedListener(this);
-        spinnerLand.setOnItemSelectedListener(this);
-//        new GetJobs().execute();
+//        spinnerArt = findViewById(R.id.spinner_art);
+//        spinnerFeld = findViewById(R.id.spinner_berufsfeld);
+//        spinnerLand = findViewById(R.id.spinner_bundesland);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.art_array,android.R.layout.simple_spinner_dropdown_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerArt.setOnItemSelectedListener(this);
+//        spinnerFeld.setOnItemSelectedListener(this);
+//        spinnerLand.setOnItemSelectedListener(this);
+
+
+        mRecycleView = findViewById(R.id.recycle_view);
+        mRecycleView.setHasFixedSize(true);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        requestQueue = Volley.newRequestQueue(this);
+        mJobList = new ArrayList<>();
+//        parseJSON();
+        new GetContacts().execute();
     }
 
     @Override
@@ -64,26 +79,45 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void findJob(View view) {
-        setContentView(R.layout.list_item);
+        setContentView(R.layout.activity_main);
     }
 
+    private void parseJSON(){
+        final String url = "https://www.wikway.de/companies/offers-json?password=ain1018";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray(url);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jObj = jsonArray.getJSONObject(i);
+                                String logo = jObj.getString("Logo");
+                                String bundesland = jObj.getString("Bundesland");
+                                String bezeichnung = jObj.getString("Bezeichnung der Stelle");
+                                mJobList.add(new Job(logo,bezeichnung,bundesland));
 
-    private class GetJobs extends AsyncTask<Void, Void, Void> {
+                            }
+                            myAdapter = new MyAdapter(MainActivity.this,mJobList);
+                            mRecycleView.setAdapter(myAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               error.printStackTrace();
+            }
+        });
+    requestQueue.add(request);
+    }
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(MainActivity.this, "Json Data is downloading", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
 
-        }
-
-        public Drawable LoadImageFromWebOperations(String url) {
-            try {
-                InputStream is = (InputStream) new URL(url).getContent();
-                Drawable d = Drawable.createFromStream(is, "src name");
-                return d;
-            } catch (Exception e) {
-                return null;
-            }
         }
 
         @Override
@@ -96,30 +130,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
-                    JSONArray jsonArr = new JSONArray(jsonStr);
+//                    JSONObject jsonObj = new JSONObject(jsonStr);
 
+                    // Getting JSON Array node
+                    JSONArray contacts = new JSONArray(jsonStr);
 
                     // looping through All Contacts
-                    for (int i = 0; i < jsonArr.length(); i++) {
-                        JSONObject c = jsonArr.getJSONObject(i);
-
-                        String bezeichnung = c.getString("Bezeichnung der Stelle");
-//                        String name = c.getString("name");
+                    for (int i = 0; i < contacts.length(); i++) {
+                        JSONObject c = contacts.getJSONObject(i);
+                        String img = c.getString("Logo");
+                        String bezeichnung_der_stelle = c.getString("Bezeichnung der Stelle");
                         String bundesland = c.getString("Bundesland");
-//                        String gender = c.getString("gender");
-                        String imageUrl = c.getString("Logo");
 
 
-                        // tmp hash map for single contact
-                        HashMap<String, Object> job = new HashMap<>();
-                        // adding each child node to HashMap key => value
-                        job.put("bezeichnung", bezeichnung);
-                        //job.put("image", String.valueOf(bmp));
-                        job.put("bundesland", bundesland);
-                        job.put("imageUrl", imageUrl);
+
 
                         // adding contact to contact list
-                        jobsList.add(job);
+                        mJobList.add(new Job(img,bezeichnung_der_stelle,bundesland));
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -152,13 +179,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            ListAdapter adapter = new SimpleAdapter(MainActivity.this, jobsList,
-                    R.layout.list_item, new String[]{"imageUrl", "bezeichnung", "bundesland"},
-                    new int[]{R.id.imageLogo, R.id.textDesc, R.id.textLand});
-
-            lv.setAdapter(adapter);
+            MyAdapter adapter = new MyAdapter(MainActivity.this,mJobList);
+            mRecycleView.setAdapter(adapter);
         }
     }
-
-
 }

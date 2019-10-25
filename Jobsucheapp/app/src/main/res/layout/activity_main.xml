@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,87 +9,91 @@
     tools:context="com.example.jobsuche_app.MainActivity">
 
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Job-suche-app"
-        android:textColor="@color/colorAccent"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Job-suche-app"-->
+<!--        android:textColor="@color/colorAccent"-->
+<!--        android:textSize="40sp"-->
+<!--        android:textStyle="bold" />-->
 
-    <TextView
-        android:id="@+id/textViewaArt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Art"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/textViewaArt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Art"-->
+<!--        android:textSize="25sp"-->
+<!--        android:textStyle="bold" />-->
 
-    <Spinner
-        android:id="@+id/spinner_art"
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_art"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:entries="@array/art_array" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewBundesland"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Bundesland"-->
+<!--        android:textSize="25sp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_bundesland"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:entries="@array/bundesland_array" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewBerufsfeld"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Berufsfeld"-->
+<!--        android:textSize="25sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/button" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_berufsfeld"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:entries="@array/berufsfeld_array" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:text="search"-->
+<!--        android:textSize="18sp"-->
+<!--        android:onClick="findJob"/>-->
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:entries="@array/art_array" />
+        android:layout_height="match_parent"
+        android:id="@+id/recycle_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <TextView
-        android:id="@+id/textViewBundesland"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Bundesland"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <Spinner
-        android:id="@+id/spinner_bundesland"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:entries="@array/bundesland_array" />
-
-    <TextView
-        android:id="@+id/textViewBerufsfeld"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Berufsfeld"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button" />
-
-    <Spinner
-        android:id="@+id/spinner_berufsfeld"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:entries="@array/berufsfeld_array" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:text="search"
-        android:textSize="18sp"
-        android:onClick="findJob"/>
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
