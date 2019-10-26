@@ -16,6 +16,7 @@ public class SearchActivity extends AppCompatActivity {
     public static final String EXTRA_ART = "art";
     public static final String EXTRA_BERUFSFELD_TEXT= "berufsfeld";
     public static final String EXTRA_LAND= "bundesland";
+    public static final String EXTRA_DEFAULT_URL= "all_jobs";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,12 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_ART,spinnerArt.getSelectedItem().toString());
         intent.putExtra(EXTRA_BERUFSFELD_TEXT,spinnerBeruf.getSelectedItem().toString());
         intent.putExtra(EXTRA_LAND,spinnerLand.getSelectedItem().toString());
+        startActivity(intent);
+    }
+
+    public void showAll(View view) {
+        Intent intent = new Intent(this,ListJobsActivity.class);
+        intent.putExtra(EXTRA_DEFAULT_URL,"https://www.wikway.de/companies/offers-json?password=ain1018");
         startActivity(intent);
     }
 }

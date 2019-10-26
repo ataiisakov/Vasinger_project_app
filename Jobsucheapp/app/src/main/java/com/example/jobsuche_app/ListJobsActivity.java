@@ -22,13 +22,14 @@ import java.util.ArrayList;
 
 import static com.example.jobsuche_app.SearchActivity.EXTRA_ART;
 import static com.example.jobsuche_app.SearchActivity.EXTRA_BERUFSFELD_TEXT;
+import static com.example.jobsuche_app.SearchActivity.EXTRA_DEFAULT_URL;
 import static com.example.jobsuche_app.SearchActivity.EXTRA_LAND;
 
 public class ListJobsActivity extends AppCompatActivity implements MyAdapter.OnItemClickListener {
 
     public static final String EXTRA_IMG_URL = "imgUrl";
-    public static final String EXTRA_DESC = "description" ;
-    public static final String EXTRA_BUNDESLAND= "bundesland";
+    public static final String EXTRA_DESC = "description";
+    public static final String EXTRA_BUNDESLAND = "bundesland";
 
     private RecyclerView mRecycleView;
     private MyAdapter myAdapter;
@@ -56,36 +57,39 @@ public class ListJobsActivity extends AppCompatActivity implements MyAdapter.OnI
         requestQueue = Volley.newRequestQueue(this);
         mJobList = new ArrayList<>();
 
+
         Intent intent = getIntent();
+
         art = intent.getStringExtra(EXTRA_ART);
         bundesland = intent.getStringExtra(EXTRA_LAND);
         berufsfeld = intent.getStringExtra(EXTRA_BERUFSFELD_TEXT);
+        if(intent.getStringExtra(EXTRA_DEFAULT_URL)==null){
+            makeUrlRequest();
+            Log.v("MainActivityAS",url);
+        }
+        Log.v("MainActivityAS",url);
 
-        makeUrlRequest();
+
 //        url = "https://www.wikway.de/companies/offers-json?password=ain1018";
-        Log.v("Mainactivity------art",art);
-        Log.v("Mainactivity------bundesland",bundesland);
-        Log.v("Mainactivity------berufsfeld",berufsfeld);
-        Log.v("Mainactivity------berufsfeld",url);
+
 
         new GetContacts().execute();
 
     }
 
-    private void makeUrlRequest(){
-        url+="&art="+art+"&berufsfeld="+berufsfeld+"&bundesland="+bundesland;
+    private void makeUrlRequest() {
+        url += "&art=" + art + "&berufsfeld=" + berufsfeld + "&bundesland=" + bundesland;
     }
-
 
 
     @Override
     public void onItemClick(int position) {
-        Intent detailIntent = new Intent(this,DetailActivity.class);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
         Job clickedItem = mJobList.get(position);
 
-        detailIntent.putExtra(EXTRA_IMG_URL,clickedItem.getImgUrl());
-        detailIntent.putExtra(EXTRA_DESC,clickedItem.getDescription());
-        detailIntent.putExtra(EXTRA_BUNDESLAND,clickedItem.getBundesland());
+        detailIntent.putExtra(EXTRA_IMG_URL, clickedItem.getImgUrl());
+        detailIntent.putExtra(EXTRA_DESC, clickedItem.getDescription());
+        detailIntent.putExtra(EXTRA_BUNDESLAND, clickedItem.getBundesland());
 
 
         startActivity(detailIntent);
@@ -95,7 +99,7 @@ public class ListJobsActivity extends AppCompatActivity implements MyAdapter.OnI
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(ListJobsActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+            Toast.makeText(ListJobsActivity.this, "Json Data is downloading", Toast.LENGTH_LONG).show();
 
         }
 
@@ -123,10 +127,8 @@ public class ListJobsActivity extends AppCompatActivity implements MyAdapter.OnI
                         String bundesland = c.getString("Bundesland");
 
 
-
-
                         // adding contact to contact list
-                        mJobList.add(new Job(img,bezeichnung_der_stelle,bundesland));
+                        mJobList.add(new Job(img, bezeichnung_der_stelle, bundesland));
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -159,7 +161,7 @@ public class ListJobsActivity extends AppCompatActivity implements MyAdapter.OnI
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            MyAdapter adapter = new MyAdapter(ListJobsActivity.this,mJobList);
+            MyAdapter adapter = new MyAdapter(ListJobsActivity.this, mJobList);
             mRecycleView.setAdapter(adapter);
             adapter.setOnItemClickListener(ListJobsActivity.this);
 
