@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
-import static com.example.jobsuche_app.MainActivity.EXTRA_BUNDESLAND;
-import static com.example.jobsuche_app.MainActivity.EXTRA_DESC;
-import static com.example.jobsuche_app.MainActivity.EXTRA_IMG_URL;
+import static com.example.jobsuche_app.ListJobsActivity.EXTRA_BUNDESLAND;
+import static com.example.jobsuche_app.ListJobsActivity.EXTRA_DESC;
+import static com.example.jobsuche_app.ListJobsActivity.EXTRA_IMG_URL;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -19,6 +19,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
 
         Intent intent = getIntent();
         String imgUrl = intent.getStringExtra(EXTRA_IMG_URL);

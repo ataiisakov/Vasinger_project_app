@@ -26,6 +26,7 @@
         android:layout_marginBottom="20dp"
         android:text="Art"/>
     <Spinner
+        android:id="@+id/spinner_art"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -43,6 +44,7 @@
         android:textStyle="bold"/>
     <Spinner
         android:layout_width="wrap_content"
+        android:id="@+id/spinner_land"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
@@ -58,6 +60,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Berufsfeld"/>
     <Spinner
+        android:id="@+id/spinner_beruf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/berufsfeld_array"
@@ -69,6 +72,7 @@
     android:layout_height="wrap_content"
     android:text="search"
     android:layout_marginTop="60dp"
+    android:onClick="findJobs"
     android:layout_gravity="center_horizontal"/>
 
 
