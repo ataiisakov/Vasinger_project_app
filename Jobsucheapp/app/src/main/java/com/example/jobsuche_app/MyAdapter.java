@@ -17,6 +17,15 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private Context mContext;
     private ArrayList<Job> mJobList;
+    private OnItemClickListener mListener;
+
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
     public MyAdapter(Context mContext, ArrayList<Job> mJobList) {
         this.mContext = mContext;
@@ -59,6 +68,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             mImageView = itemView.findViewById(R.id.imageLogo);
             mTextViewDesc= itemView.findViewById(R.id.textDesc);
             mTextViewLand = itemView.findViewById(R.id.textLand);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
